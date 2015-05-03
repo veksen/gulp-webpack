@@ -1,71 +1,49 @@
-var gulp       = require('gulp');
-var sass       = require('gulp-sass');
-var mincss     = require('gulp-minify-css');
-var notify     = require('gulp-notify');
-var gutil      = require('gulp-util');
-var rev        = require('gulp-rev');
-var bower      = require('gulp-bower');
-var smap       = require('gulp-sourcemaps');
-var autoprefix = require('gulp-autoprefixer');;
+var path = require('path');
 
-var paths = {
-	sass:  './src/scss',
-	css:   './dist/css',
-	fonts: './dist/fonts',
-	bower: './bower_components'
-}
+var gulp  = require('gulp'),
+	gutil = require('gulp-util'),
+	sass  = require('gulp-sass'),
+	concat = require('gulp-concat'),
+	jquery = require('jquery'),
+	neat = require('node-neat').includePaths,
+	requireDir  = require('require-dir'),
+	paths = require('./paths.js');
+
+requireDir( './tasks', { recurse: true } );
 
 gulp.task('watch', function () {
 	gulp.watch(paths.sass + '/**/*.scss', ['sass']);
 });
 
-gulp.task('default', ['bower', 'fa', 'assets', 'sass']);
-
-gulp.task('bower', function() {
-	return bower()
-		.pipe(gulp.dest(paths.bower));
+gulp.task('default',function() {
+	gulp.start('sass');
 });
 
-gulp.task('fa', function() {
-	return gulp.src(paths.bower + '/fontawesome/fonts/**.*')
-		.pipe(gulp.dest(paths.fonts));
-});
+//gulp.task('bower', function() {
+//	return bower()
+//		.pipe(gulp.dest(paths.bower));
+//});
 
-gulp.task('assets', function() {
-	return gulp.src(paths.sass + '/assets.scss')
-		.pipe(smap.init())
-		.pipe(notify({
-			message: "Generated file <%= file.relative %>",
-		}))
+gulp.task('sass', function () {
+	gulp.src(paths.sass + '/main.scss')
 		.pipe(sass({
-			style: 'compressed',
-			includePaths: [
-				paths.sass,
-				paths.bower + '/bootstrap-sass-official/assets/stylesheets',
-				paths.bower + '/fontawesome/scss',
-			]
-		}))
-		.pipe(mincss())
-		.on('error', notify.onError(function(error) {
-			return "Error: " + error.message;
-		}))
-		.pipe(smap.write())
-		.pipe(gulp.dest(paths.css + '/assets'));
-})
-
-gulp.task('sass', function() {
-	return gulp.src(paths.sass + '/main.scss')
-		.pipe(notify({
-			message: "Generated file <%= file.relative %>",
-		}))
-		.pipe(sass({
-			style: 'compressed'
-		}))
-		.pipe(autoprefix())
-		.pipe(mincss())
-		//.pipe(rev())
-		.on('error', notify.onError(function(error) {
-			return "Error: " + error.message;
+			includePaths: require('node-neat').includePaths
+			//includePaths: path.resolve(paths.base, 'node_modules/select2')
 		}))
 		.pipe(gulp.dest(paths.css));
 });
+
+// gulp.task('javascript', function () {
+//	return gulp.src(paths.js)
+//		.pipe(concat('all.js'))
+//		.pipe(gulp.dest('./dist/js'));
+// });
+
+//gulp.task('sass', function () {
+//	return gulp.src(paths.sass)
+//		.pipe(sass({
+//			includePaths: ['styles'].concat(neat)
+//		}))
+//		.pipe(gulp.dest(paths.css));
+//});
+

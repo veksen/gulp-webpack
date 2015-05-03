@@ -1,6 +1,30 @@
+@import 'assets';
 @import 'variables';
+// @import 'select2';
+
 
 body {
-	background: #ddd;
-	color: $brand-color;
+  background: #eee;
+
+  > section {
+    @include outer-container(1140px);
+  }
+}
+
+#mainHead {
+//  $grid-columns: 5;
+  $gutter: 10px;
+
+  .box {
+    @include span-columns(2.4);
+    @include omega(5n);
+
+    > .inner {
+      margin: $gutter;
+//      margin-bottom: 0;
+      background: #f00;
+      height: 20px;
+      color: #fff;
+    }
+  }
 }
