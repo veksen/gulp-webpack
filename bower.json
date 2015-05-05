@@ -15,5 +15,8 @@
   ],
   "dependencies": {
     "susy": "~2.2.3"
+  },
+  "devDependencies": {
+    "select2": "~4.0.0"
   }
 }

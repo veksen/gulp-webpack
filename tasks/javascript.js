@@ -26,6 +26,6 @@ gulp.task('javascript', function() {
 	return gulp.src(sourceFile)
 		.pipe(named())
 		.pipe(webpack(config))
-		.pipe(uglify())
+		//.pipe(uglify())
 		.pipe(gulp.dest(distPath));
 });

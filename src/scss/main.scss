@@ -1,7 +1,10 @@
-@import 'assets';
+//@import 'assets';
+@import 'bourbon';
+@import 'neat';
 @import 'variables';
-// @import 'select2';
+//@import 'select2';
 
+@import '../../bower_components/select2/src/scss/core';
 
 body {
   background: #eee;
@@ -28,3 +31,8 @@ body {
     }
   }
 }
+
+select {
+  width: 100%;
+}
+
